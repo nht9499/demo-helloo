@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App</title>
+  </head>
+  <body>
+    <glasson-helloo></glasson-helloo>
+    <script>
+      const favoriteList = [
+        {
+          modelName: 'rimless_square',
+          frameColor: 'blue_1',
+          templeColor: 'silver_bronze',
+          lensColor: 'normal_fair_ocher_10f',
+          logoFrontColor: 'black',
+          logoBackColor: 'black',
+          bridgeName: 'bridge_1',
+          thumbnailUrl: 'urlLink'
+        }
+      ]
+      const variantPrice = calculatatePrice()
+
+      const inputData = JSON.stringify({
+        favoriteList,
+        variantPrice
+      })
+
+      function calculatatePrice() {
+        return price = Math.floor(Math.random() * 10000) + 1;
+      }
+
+      const _instance = document.querySelector('glasson-helloo')
+      _instance.setAttribute('inputdata', inputData)
+
+      _instance.addEventListener('favoriteListUpdated', (event) => {
+        const _data = event.detail
+        console.info('[event:favoriteListUpdated]', _data)
+      })
+      _instance.addEventListener('addToCart', (event) => {
+        const _data = event.detail
+        console.info('[event:addToCart]', _data)
+      })
+      _instance.addEventListener('variantUpdated', (event) => {
+        const _data = event.detail
+        console.info('[event:variantUpdated]', _data)
+        const newPrice = calculatatePrice();
+        const newInputData = JSON.stringify({
+          favoriteList,
+          variantPrice: newPrice
+        })
+        _instance.setAttribute('inputdata', newInputData)
+      })
+    </script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
